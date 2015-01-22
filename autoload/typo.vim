@@ -2,11 +2,19 @@ let s:tags = "tags"
 let s:node_id_map = "node-id-map"
 let s:type_map = "type-map"
 
+function! typo#tags(input)
+    let rustc = system("which rustc")
+    let rustroot = fnamemodify(rustc, ":h:h")
+    let cmdline = "!typo-tags --sysroot ".rustroot
+    let cmdline = cmdline . " --tags " . s:tags
+    let cmdline = cmdline . " " . a:input
+    execute cmdline
+endfunction
+
 function! typo#generate(input)
     let rustc = system("which rustc")
     let rustroot = fnamemodify(rustc, ":h:h")
     let cmdline = "!typo --sysroot ".rustroot
-    let cmdline = cmdline . " --tags " . s:tags
     let cmdline = cmdline . " --node-id-map " . s:node_id_map
     let cmdline = cmdline . " --type-map " . s:type_map
     let cmdline = cmdline . " " . a:input
